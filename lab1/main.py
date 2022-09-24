@@ -14,11 +14,12 @@ logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler()
 handler.setFormatter(logging.Formatter("[%(asctime)s: %(levelname)s] %(message)s"))
 logger.addHandler(handler)
+
+
 def yandex_translate_text(texts, target_language):
     body = {
         "targetLanguageCode": target_language,
         "texts": texts,
-        "folderId": env_data['YANDEX_FOLDER_ID'],
     }
 
     headers = {
