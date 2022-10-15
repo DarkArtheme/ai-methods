@@ -3,6 +3,7 @@ import logging
 import requests
 import sys
 
+from google_trans_new import google_translator
 from envdata import *
 from mainwindow import Ui_MainWindow
 from PyQt6.QtWidgets import *
@@ -41,6 +42,15 @@ def yandex_translate_text(texts, target_language):
     return result
 
 
+def google_translate_text(texts, target_language):
+    # translator = Translator()
+    translator = google_translator(url_suffix="ru", timeout=5)
+    translations = translator.translate(texts, lang_tgt=target_language)
+    result = [tr.text for tr in translations]
+    logger.debug(f"translations={result}")
+    return result
+
+
 class MyMainWindow(QMainWindow):
 
     def __init__(self):
@@ -58,6 +68,7 @@ class MyMainWindow(QMainWindow):
             logger.error("индекс combobox за пределами")
             return
         result = yandex_translate_text(texts=texts, target_language=langs[index])
+        # result = google_translate_text(texts=texts, target_language=langs[index])
         logger.debug(f"result={result}")
         self.ui.textBrowser.setText(str.join('\n', result))
 
